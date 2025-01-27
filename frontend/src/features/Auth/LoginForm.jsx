@@ -19,7 +19,7 @@ const LoginForm = () => {
     try {
       const resultAction = await dispatch(loginUserAsync(credentials));
       if (loginUserAsync.fulfilled.match(resultAction)) {
-        navigate("/dashboard");
+        navigate("/user/dashboard");
       } else if (loginUserAsync.rejected.match(resultAction)) {
         const errorMessage = resultAction.payload?.error || "Login failed";
         setAlert(errorMessage);

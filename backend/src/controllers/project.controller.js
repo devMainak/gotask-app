@@ -12,7 +12,7 @@ const addProject = async (newProject) => {
 };
 
 exports.createProject = async (req, res) => {
-  const { project } = req.body;
+  const project = req.body;
   try {
     const savedProject = await addProject(project);
     if (savedProject) {

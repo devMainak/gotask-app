@@ -7,23 +7,27 @@ const taskSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Project",
     required: true,
-  }, // Refers to Project model
+  },
   team: { type: mongoose.Schema.Types.ObjectId, ref: "Team", required: true }, // Refers to Team model
   owners: [
     { type: mongoose.Schema.Types.ObjectId, ref: "Owner", required: true }, // Refers to User model (owners)
   ],
-  tags: [{ type: String }], // Array of tags
-  timeToComplete: { type: Number, required: true }, // Number of days to complete the task
+  priority: {
+    type: String,
+    enum: ["High", "Low", "Medium"],
+    default: "Low",
+  },
+  tags: [{ type: String }],
+  timeToComplete: { type: Number, required: true },
   status: {
     type: String,
     enum: ["To Do", "In Progress", "Completed", "Blocked"],
-    // Enum for task status
     default: "To Do",
-  }, // Task status
+  },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
 });
-// Automatically update the `updatedAt` field whenever the document is updated
+
 taskSchema.pre("save", function (next) {
   this.updatedAt = Date.now();
   next();

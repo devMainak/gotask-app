@@ -5,7 +5,8 @@ const addTask = async (newTask) => {
   try {
     const taskToSave = new Task(newTask);
     const savedTask = await taskToSave.save();
-    return savedTask;
+    const task = savedTask.populate("owners")
+    return task;
   } catch (error) {
     throw error;
   }
@@ -38,7 +39,7 @@ const readAllTasks = async (filters) => {
     if (filters.project) query.project = filters.project;
     if (filters.status) query.status = filters.status;
 
-    const tasks = await Task.find(query);
+    const tasks = await Task.find(query).populate("owners");
     return tasks;
   } catch (error) {
     throw error;
@@ -65,7 +66,8 @@ const updateTaskById = async (taskId, task) => {
     const updatedTask = await Task.findByIdAndUpdate(taskId, task, {
       new: true,
     });
-    return updatedTask;
+    const renewedTask = updatedTask.populate("owners");
+    return renewedTask;
   } catch (error) {
     throw error;
   }

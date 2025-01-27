@@ -27,7 +27,7 @@ const SignupForm = () => {
     try {
       const resultAction = await dispatch(signupUserAsync(newUser));
       if (signupUserAsync.fulfilled.match(resultAction)) {
-        navigate("/dashboard");
+        navigate("/user/dashboard");
       } else {
         setAlert(resultAction.payload.message);
         setTimeout(() => setAlert(""), 2000);

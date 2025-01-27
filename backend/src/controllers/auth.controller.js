@@ -9,7 +9,6 @@ exports.signup = async (req, res) => {
   const { name, email, password } = req.body;
   try {
     const userWithExistingEmail = await User.findOne({ email });
-    console.log("The User:", userWithExistingEmail);
     if (userWithExistingEmail) {
       return res.status(401).json({ message: "User with email exists" });
     }
@@ -21,7 +20,17 @@ exports.signup = async (req, res) => {
       password: hashedPassword,
     });
     const savedUser = await newUser.save();
-    res.status(201).json({ message: "User registered", user: savedUser });
+    if (savedUser) {
+      const accessToken = jwt.sign({ id: savedUser._id }, ACCESS_TOKEN_SECRET, {
+        expiresIn: "30d",
+      });
+
+      res.status(201).json({
+        message: "User registered",
+        user: savedUser,
+        token: accessToken,
+      });
+    }
   } catch (error) {
     res.status(500).json({ error: "Registration failed" });
   }

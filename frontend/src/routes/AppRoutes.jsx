@@ -4,6 +4,7 @@ import AuthLayout from "../components/auth/AuthLayout";
 import LoginForm from "../features/Auth/LoginForm";
 import App from "../App";
 import SignupForm from "../features/Auth/SignupForm";
+import Dashboard from "../pages/Dashboard";
 
 const AppRoutes = () => {
   return (
@@ -15,7 +16,9 @@ const AppRoutes = () => {
       </Route>
 
       {/* Protected Routes */}
-      <Route path="/dashboard" element={<App/>}/>
+      <Route path="/user" element={<App/>}>
+        <Route path="dashboard" element={<Dashboard/>}/>
+      </Route>
     </Routes>
   );
 };
